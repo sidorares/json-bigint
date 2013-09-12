@@ -351,7 +351,9 @@ var json_parse = (function () {
     };
 }());
 
+json_stringify = require('./stringify.js').stringify;
+
 module.exports = {
-  parse: json_parse
-  // TODO: stringify bigints
+  parse: json_parse,
+  stringify: json_stringify
 };
