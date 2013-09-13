@@ -8,11 +8,36 @@ JSON.parse/stringify with bigints support. Based on Douglas Crockford [JSON.js](
 example:
 
 ```js
-var JSON = require('json-bigint');
+var JSONbig = require('json-bigint');
 
-var r = JSON.parse('{ "value" : 9223372036854775807 }');
+var json = '{ "value" : 9223372036854775807, "v2": 123 }';
+console.log('Input:', json);
+console.log('');
 
-console.log(r.value.toString());
+console.log('node.js bult-in JSON:')
+var r = JSON.parse(json);
+console.log('JSON.parse(input).value : ', r.value.toString());
+console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
+
+console.log('\n\nbig number JSON:');
+var r1 = JSONbig.parse(json);
+console.log('JSON.parse(input).value : ', r1.value.toString());
+console.log('JSON.stringify(JSON.parse(input)):', JSONbig.stringify(r1));
+```
+
+Output:
+
+```
+Input: { "value" : 9223372036854775807, "v2": 123 }
+
+node.js bult-in JSON:
+JSON.parse(input).value :  9223372036854776000
+JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
+
+
+big number JSON:
+JSON.parse(input).value :  9223372036854775807
+JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
 ```
 
 ### Links:
