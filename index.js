@@ -105,7 +105,6 @@ var json_parse = (function () {
         },
 
         number = function () {
-            debugger;
 // Parse a number value.
 
             var number,
