@@ -140,7 +140,9 @@ var json_parse = (function () {
             if (!isFinite(number)) {
                 error("Bad number");
             } else {
-                if (number > 9007199254740992 || number < -9007199254740992)
+                //if (number > 9007199254740992 || number < -9007199254740992)
+                // Bignumber has stricter check: everything with length > 15 digits disallowed
+                if (string.length > 15)
                    return new BigNumber(string);
                 return number;
             }
