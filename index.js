@@ -313,6 +313,13 @@ var json_parse = (function () {
 // Return the json_parse function. It will have access to all of the above
 // functions and variables.
 
+    function bigNumberToStringReviver(key, value) {
+        if (value && value instanceof BigNumber) {
+            return value.toString();
+        }
+        return value;
+    }
+
     return function (source, reviver) {
         var result;
 
@@ -323,6 +330,10 @@ var json_parse = (function () {
         white();
         if (ch) {
             error("Syntax error");
+        }
+
+        if (reviver === true) {
+            reviver = bigNumberToStringReviver;
         }
 
 // If there is a reviver function, we recursively walk the new structure,
