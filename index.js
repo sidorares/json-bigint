@@ -9,9 +9,14 @@ var BigNumber = require('bignumber.js');
 
     This file creates a json_parse function.
 
-        json_parse(text, reviver)
+        json_parse(text, options, reviver)
             This method parses a JSON text to produce an object or array.
             It can throw a SyntaxError exception.
+
+            The optional options parameter holds switches that drive certain 
+            aspects of the parsing process:
+            * options.lenient = false will warn about duplicate-key usage in the json.
+              The default (lenient = true) will silently ignore those.
 
             The optional reviver parameter is a function that can filter and
             transform the results. It receives each of the keys and values,
@@ -61,6 +66,12 @@ var json_parse = (function () {
 
 // We are defining the function inside of another function to avoid creating
 // global variables.
+
+
+// Default options one can override by passing options to the parse()
+    var _options = {
+        "lenient": true  // do not generate syntax errors for "duplicate key" 
+    };
 
     var at,     // The index of the current character
         ch,     // The current character
@@ -274,7 +285,7 @@ var json_parse = (function () {
                     key = string();
                     white();
                     next(':');
-                    if (Object.hasOwnProperty.call(object, key)) {
+                    if (_options.lenient !== true && Object.hasOwnProperty.call(object, key)) {
                         error('Duplicate key "' + key + '"');
                     }
                     object[key] = value();
@@ -313,8 +324,15 @@ var json_parse = (function () {
 // Return the json_parse function. It will have access to all of the above
 // functions and variables.
 
-    return function (source, reviver) {
+    return function (source, options, reviver) {
         var result;
+
+// If there are options, then use them to override the default _options
+        if (options !== undefined && options !== null) {
+            if (options.lenient === false) { 
+                _options.lenient = false; 
+            }
+        }
 
         text = source;
         at = 0;
