@@ -10,7 +10,7 @@ While most JSON parsers assume numeric values have same precision restrictions a
 example:
 
 ```js
-var JSONbig = require('json-bigint');
+var JSONbig = require('json-bigint')();
 
 var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
@@ -44,22 +44,25 @@ JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
 ### Options
 The behaviour of the parser is somewhat configurable through 'options'
 
-#### options.lenient, boolean, default true
-Specifies the parsing should be "lenient" towards reporting duplicate-keys in the parsed string.
+#### options.strict, boolean, default false
+Specifies the parsing should be "strict" towards reporting duplicate-keys in the parsed string.
 The default follows what is allowed in standard json and resembles the behavior of JSON.parse, but overwrites any previous values with the last one assigned to the duplicate-key.
 
-Setting options.lenient = false will fail-fast on such occurances and warn you upfront of possible lost information.
+Setting options.strict = true will fail-fast on such duplicate-key occurances and thus warn you upfront of possible lost information.
 
 example:
 ```js
+var JSONbig = require('json-bigint')();
+var JSONstrict = require('json-bigint')({"strict": true});
+
 var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';
-console.log('\n\nDuplicate Key test with big number JSON');
+console.log('\n\nDuplicate Key test with both lenient and strict JSON parsing');
 console.log('Input:', dupkeys);
 var works = JSONbig.parse(dupkeys);
 console.log('JSON.parse(dupkeys).dupkey: %s', works.dupkey);
 var fails = "will stay like this";
 try {
-    fails = JSONbig.parse(dupkeys, {"lenient": false});
+    fails = JSONstrict.parse(dupkeys);
     console.log('ERROR!! Should never get here');
 } catch (e) {
     console.log('Succesfully catched expected exception on duplicate keys: %j', e);

@@ -1,6 +1,6 @@
 {
   "name": "json-bigint",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "JSON.parse with bigints support",
   "main": "index.js",
   "scripts": {
