@@ -6,6 +6,7 @@ lib-cov
 *.out
 *.pid
 *.gz
+.*.swp
 node_modules
 
 pids
