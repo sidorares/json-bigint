@@ -8,7 +8,17 @@ var BigNumber = require('bignumber.js');
     NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
     This file creates a json_parse function.
+    During create you can (optionally) specify some behavioural switches
 
+        require('json-bigint')(options)
+
+            The optional options parameter holds switches that drive certain 
+            aspects of the parsing process:
+            * options.strict = true will warn about duplicate-key usage in the json.
+              The default (strict = false) will silently ignore those and overwrite
+              values for keys that are in duplicate use.
+
+    The resulting function follows this signature:
         json_parse(text, reviver)
             This method parses a JSON text to produce an object or array.
             It can throw a SyntaxError exception.
@@ -51,7 +61,7 @@ var BigNumber = require('bignumber.js');
     hasOwnProperty, message, n, name, prototype, push, r, t, text
 */
 
-var json_parse = (function () {
+var json_parse = function (options) {
     "use strict";
 
 // This is a function that can parse a JSON text, producing a JavaScript
@@ -61,6 +71,21 @@ var json_parse = (function () {
 
 // We are defining the function inside of another function to avoid creating
 // global variables.
+
+
+// Default options one can override by passing options to the parse()
+    var _options = {
+        "strict": false  // not being strict means do not generate syntax errors for "duplicate key" 
+    };
+
+
+// If there are options, then use them to override the default _options
+    if (options !== undefined && options !== null) {
+        if (options.strict === true) { 
+            _options.strict = true; 
+        }
+    }
+
 
     var at,     // The index of the current character
         ch,     // The current character
@@ -274,7 +299,7 @@ var json_parse = (function () {
                     key = string();
                     white();
                     next(':');
-                    if (Object.hasOwnProperty.call(object, key)) {
+                    if (_options.strict === true && Object.hasOwnProperty.call(object, key)) {
                         error('Duplicate key "' + key + '"');
                     }
                     object[key] = value();
@@ -316,6 +341,7 @@ var json_parse = (function () {
     return function (source, reviver) {
         var result;
 
+
         text = source;
         at = 0;
         ch = ' ';
@@ -350,11 +376,16 @@ var json_parse = (function () {
             }({'': result}, ''))
             : result;
     };
-}());
+}
 
 json_stringify = require('./stringify.js').stringify;
 
-module.exports = {
-  parse: json_parse,
-  stringify: json_stringify
+module.exports = function(options) {
+    return  {
+        parse: json_parse(options),
+        stringify: json_stringify
+    }
 };
+//create the default method members with no options applied for backwards compatibility
+module.exports.parse = json_parse();
+module.exports.stringify = json_stringify();
