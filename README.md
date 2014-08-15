@@ -10,7 +10,7 @@ While most JSON parsers assume numeric values have same precision restrictions a
 example:
 
 ```js
-var JSONbig = require('json-bigint')();
+var JSONbig = require('json-bigint');
 
 var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
@@ -52,7 +52,7 @@ Setting options.strict = true will fail-fast on such duplicate-key occurances an
 
 example:
 ```js
-var JSONbig = require('json-bigint')();
+var JSONbig = require('json-bigint');
 var JSONstrict = require('json-bigint')({"strict": true});
 
 var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';

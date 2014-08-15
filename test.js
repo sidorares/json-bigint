@@ -1,4 +1,4 @@
-var JSONbig = require('./index.js')();
+var JSONbig = require('./index.js');
 
 var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
