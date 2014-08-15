@@ -86,6 +86,3 @@ Succesfully catched expected exception on duplicate keys: {"name":"SyntaxError",
 - [What is JavaScript's Max Int? What's the highest Integer value a Number can go to without losing precision?](http://stackoverflow.com/questions/307179/what-is-javascripts-max-int-whats-the-highest-integer-value-a-number-can-go-t)
 - [Large numbers erroneously rounded in Javascript](http://stackoverflow.com/questions/1379934/large-numbers-erroneously-rounded-in-javascript)
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/sidorares/json-bigint/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
