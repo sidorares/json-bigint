@@ -338,7 +338,7 @@ var json_parse = function (options) {
 // Return the json_parse function. It will have access to all of the above
 // functions and variables.
 
-    return function (source, options, reviver) {
+    return function (source, reviver) {
         var result;
 
 
