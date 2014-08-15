@@ -12,6 +12,7 @@ console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
 console.log('\n\nbig number JSON:');
 var r1 = JSONbig.parse(json);
 console.log('JSON.parse(input).value : ', r1.value.toString());
+console.log('JSON.stringify(JSON.parse(input)):', JSONbig.stringify(r1));
 console.log('');
 
 
