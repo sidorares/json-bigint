@@ -4,7 +4,7 @@
   "description": "JSON.parse with bigints support",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R spec test/*-test.js"
+    "test": "./node_modules/mocha/bin/mocha -R spec --check-leaks test/*-test.js"
   },
   "repository": {
     "type": "git",

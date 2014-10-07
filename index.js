@@ -1,5 +1,5 @@
-json_stringify = require('./lib/stringify.js').stringify;
-json_parse     = require('./lib/parse.js');
+var json_stringify = require('./lib/stringify.js').stringify;
+var json_parse     = require('./lib/parse.js');
 
 module.exports = function(options) {
     return  {
