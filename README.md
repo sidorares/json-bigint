@@ -81,6 +81,32 @@ Succesfully catched expected exception on duplicate keys: {"name":"SyntaxError",
 
 ```
 
+#### options.storeAsString, boolean, default false
+Specifies if BigInts should be stored in the object as a string, rather than the default BigNumber.
+
+Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all BigInts to be-and-stay strings).
+
+example:
+```js
+var JSONbig = require('json-bigint');
+var JSONbigString = require('json-bigint')({"storeAsString": true});
+var key = '{ "key": 1234567890123456789 }';
+console.log('\n\nStoring the BigInt as a string, instead of a BigNumber');
+console.log('Input:', key);
+var withInt = JSONbig.parse(key);
+var withString = JSONbigString.parse(key);
+console.log('Default type: %s, With option type: %s', typeof withInt.key, typeof withString.key);
+
+```
+
+Output
+```
+Storing the BigInt as a string, instead of a BigNumber
+Input: { "key": 1234567890123456789 }
+Default type: object, With option type: string
+
+```
+
 
 ### Links:
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
