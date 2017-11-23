@@ -45,17 +45,6 @@ JSON.parse(input).value :  9223372036854775807
 JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
 ```
 
-### A Note on Parsing Floats
-
-This library now checks if numbers have a decimal point and a non-zero mantissa (the part after a decimal point). 
-
-If there is a mantissa and it is non-zero, then the number is parsed as a float (with precision maintained or not as defined by the in-built javascript float interpreter). e.g. `'123.45'` will parse as `123.45` and `12345678901234567890123.456` will convert to `1.2345678901234568e+22`. 
-
-If there is a mantissa and it is only a series of zeros, then it is stripped and only the integer part is used to calculate whether a BigNumber conversion is required. i.e. `'123.000'` will parse as `123` and `12345678901234567890123.000` will convert to `BigNumber('12345678901234567890123')`.
-
-Why not always use a decimal point as a hint for float in all cases? Well, you can if you want to. Simply use the `strictFloatHints` option described below.
-
-
 ### Options
 The behaviour of the parser is somewhat configurable through 'options'
 
@@ -123,6 +112,15 @@ Default type: object, With option type: string
 
 ```
 
+#### options.floatHints, boolean, default false
+
+Interpret the presence of a decimal point as a loose hint that this number should be treated as a float.
+
+If there is a mantissa and it is non-zero, then the number is parsed as a float (with precision maintained or not as defined by the in-built javascript float interpreter). e.g. `'123.45'` will parse as `123.45` and `12345678901234567890123.456` will convert to `1.2345678901234568e+22`. 
+
+If there is a mantissa and it is only a series of zeros, then it is stripped and only the integer part is used to calculate whether a BigNumber conversion is required. i.e. `'123.000'` will parse as `123` and `12345678901234567890123.000` will convert to `BigNumber('12345678901234567890123')`.
+
+
 
 #### options.strictFloatHints, boolean, default false
 
@@ -150,7 +148,8 @@ Input: { "key": "1234567890123456789012345.000" }
 Default type: object, With option type: number
 
 ```
- 
+
+
 
 
 ### Links:

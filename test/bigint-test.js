@@ -29,26 +29,20 @@ describe("Testing bigint support", function(){
         done();
     });
 
-    it('should leave numbers with non-zero mantissa as floats', function(done){
-        var JSONbig = require('../index');
-        var obj = JSONbig.parse('12345678912345.123');
-        expect(typeof obj).to.equal('number');
-        done();
-    });
+    [
+      ['1.23456789012345678901', '1.23456789012345678901'],
+      ['12345678901234.5678901', '12345678901234.5678901'],
+      ['00000000000000.0000000', '0']
+    ].forEach((data) => {
+        var input = data[0];
+        var expected = data[1];
+        it('should convert any number longer than 15 chars to bignumber, even floats like' + input, function(done){
+          var JSONbig = require('../index');
+          var result = JSONbig.parse(input);
+          expect(result).to.be.instanceof(BigNumber);
+          expect(result.toString()).to.equal(expected);
+          done();
+        });
+    })
 
-    it('should convert numbers with a zero mantissa to ints if the integer part is longer than 15 chars', function(done){
-      var inputLong = '9223372036854775807.00000';
-      var inputShort = '75807.00000';
-      var JSONbig = require('../index');
-
-      var objLong = JSONbig.parse(inputLong);
-      expect(objLong, "instanceof big int").to.be.instanceof(BigNumber);
-      expect(objLong.toString(), "string from big int").to.equal("9223372036854775807");
-
-      var objShort = JSONbig.parse(inputShort);
-      expect(objShort).to.be.a('number');
-      expect(objShort).to.equal(75807);
-
-      done();
-    });
 });
