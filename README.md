@@ -44,6 +44,18 @@ big number JSON:
 JSON.parse(input).value :  9223372036854775807
 JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
 ```
+
+### A Note on Parsing Floats
+
+This library now checks if numbers have a decimal point and a non-zero mantissa (the part after a decimal point). 
+
+If there is a mantissa and it is non-zero, then the number is parsed as a float (with precision maintained or not as defined by the in-built javascript float interpreter). e.g. `'123.45'` will parse as `123.45` and `12345678901234567890123.456` will convert to `1.2345678901234568e+22`. 
+
+If there is a mantissa and it is only a series of zeros, then it is stripped and only the integer part is used to calculate whether a BigNumber conversion is required. i.e. `'123.000'` will parse as `123` and `12345678901234567890123.000` will convert to `BigNumber('12345678901234567890123')`.
+
+Why not always use a decimal point as a hint for float in all cases? Well, you can if you want to. Simply use the `strictFloatHints` option described below.
+
+
 ### Options
 The behaviour of the parser is somewhat configurable through 'options'
 
@@ -54,6 +66,7 @@ The default follows what is allowed in standard json and resembles the behavior 
 Setting options.strict = true will fail-fast on such duplicate-key occurances and thus warn you upfront of possible lost information.
 
 example:
+
 ```js
 var JSONbig = require('json-bigint');
 var JSONstrict = require('json-bigint')({"strict": true});
@@ -73,6 +86,7 @@ try {
 ```
 
 Output
+
 ```
 Duplicate Key test with big number JSON
 Input: { "dupkey": "value 1", "dupkey": "value 2"}
@@ -87,6 +101,7 @@ Specifies if BigInts should be stored in the object as a string, rather than the
 Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all BigInts to be-and-stay strings).
 
 example:
+
 ```js
 var JSONbig = require('json-bigint');
 var JSONbigString = require('json-bigint')({"storeAsString": true});
@@ -100,12 +115,42 @@ console.log('Default type: %s, With option type: %s', typeof withInt.key, typeof
 ```
 
 Output
+
 ```
 Storing the BigInt as a string, instead of a BigNumber
 Input: { "key": 1234567890123456789 }
 Default type: object, With option type: string
 
 ```
+
+
+#### options.strictFloatHints, boolean, default false
+
+Always interpret the presence of a decimal point as an instruction to parse the number using the in-built javascript float interpreter.
+
+example:
+
+```js
+var JSONbig = require('json-bigint');
+var JSONbigFloats = require('json-bigint')({"strictFloatHints": true});
+var key = '{ "key": '1234567890123456789012345.000' }';
+console.log('\n\nAlways interpreting decimal numbers as floats, instead of a BigNumber');
+console.log('Input:', key);
+var withStrictFloatHints = JSONbigFloats.parse(key);
+var asNormal = JSONbig.parse(key);
+console.log('Default type: %s, With option type: %s', typeof asNormal.key, typeof withStrictFloatHints.key);
+
+```
+
+Output
+
+```
+Always interpreting decimal numbers as floats, instead of a BigNumber
+Input: { "key": "1234567890123456789012345.000" }
+Default type: object, With option type: number
+
+```
+ 
 
 
 ### Links:
