@@ -28,4 +28,17 @@ describe("Testing bigint support", function(){
         expect(output).to.equal(input);
         done();
     });
+
+    it("Should be able to parse numeric values larger than 1.7976931348623157e+308", function(done){
+        var JSONbig = require('../index');
+        var veryBigInput = '{"big":3e+500}';
+
+        var obj = JSONbig.parse(veryBigInput);
+        expect(obj.big.toString(), "string from big int").to.equal("3e+500");
+        expect(obj.big, "instanceof big int").to.be.instanceof(BigNumber);
+
+        var output = JSONbig.stringify(obj);
+        expect(output).to.equal(veryBigInput);
+        done();
+    });
 });
