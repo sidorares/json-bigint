@@ -20,9 +20,11 @@ Parse JSON strings as described in the next example:
 ```
 var JSONbig = require('true-json-bigint');
 
-var json = '{ "value" : 987654321123456789987654321 }';
+var json = '{"smallNumber": 1, "bigNumber" : 987654321123456789987654321}';
 
-JSONbig.parse(json)
+JSONbig.parse(json);
+
+console.log(json); // {"smallNumber": 1, "bigNumber" : 987654321123456789987654321}
 
 ```
 
@@ -30,11 +32,15 @@ As can be seen in the following example, stringifying a JSON object that contain
 
 ```
 var JSONbig = require('true-json-bigint');
+const BigNumber = require('bignumber.js');
 
 var json = {}
-json.value = 987654321123456789987654321;
+json.smallNumber = 1
+json.bigNumber = BigNumber('987654321123456789987654321');
 
-console.log(JSONbig.stringify(json))
+const result = JSONbig.stringify(json);
+
+console.log(result); // {"smallNumber":1,"bigNumber":9.87654321123456789987654321e+26}
 
 ```
 
