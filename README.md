@@ -31,9 +31,10 @@ As can be seen in the following example, stringifying a JSON object that contain
 ```
 var JSONbig = require('true-json-bigint');
 
-var json.value : 987654321123456789987654321;
+var json = {}
+json.value = 987654321123456789987654321;
 
-JSONbig.stringify(json)
+console.log(JSONbig.stringify(json))
 
 ```
 
