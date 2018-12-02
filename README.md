@@ -1,117 +1,40 @@
-json-bigint
+true-json-bigint
 ===========
 
-[![Build Status](https://secure.travis-ci.org/sidorares/json-bigint.png)](http://travis-ci.org/sidorares/json-bigint)
-[![NPM](https://nodei.co/npm/json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint/)
+[![Build Status](https://travis-ci.org/SebastianG77/json-bigint.svg?branch=master)](https://travis-ci.org/SebastianG77/json-bigint)
+[![NPM](https://nodei.co/npm/true-json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/true-json-bigint/)
 
-JSON.parse/stringify with bigints support. Based on Douglas Crockford [JSON.js](https://github.com/douglascrockford/JSON-js) package and [bignumber.js](https://github.com/MikeMcl/bignumber.js) library.
+This is a module for parsing JSON strings to JSON objects and stringifying JSON objects to JSON strings. It is a fork of [json-bigint 0.3.0](https://www.npmjs.com/package/json-bigint/v/0.3.0), but enhances the original module in the following aspects. 
 
-While most JSON parsers assume numeric values have same precision restrictions as IEEE 754 double, JSON specification _does not_ say anything about number precision. Any floating point number in decimal (optionally scientific) notation is valid JSON value. It's a good idea to serialize values which might fall out of IEEE 754 integer precision as strings in your JSON api, but `{ "value" : 9223372036854775807}`, for example, is still a valid RFC4627 JSON string, and in most JS runtimes the result of `JSON.parse` is this object: `{ value: 9223372036854776000 }`
+1. It is possible to parse JSON strings containing numeric values larger than 1.797693134862315E+308. The module json-bigint 0.3.0 will throw the error "Bad number" in such cases.
+2. This module has a proper support for scientific notation. The original module will parse values like 1e+100 to numeric values as its string representation has less than 15 characters. This handling results in an inapproriate casting of integer values that are larger than 2<sup>53</sup> - 1 and written in scientific notation. With true-json-bigint the length of the floating point representation will be used to determine the length of the number. This change ensures that all numeric values written in scientific notation will be parsed to to big number objects when necessary.
 
-==========
-
-example:
-
-```js
-var JSONbig = require('json-bigint');
-
-var json = '{ "value" : 9223372036854775807, "v2": 123 }';
-console.log('Input:', json);
-console.log('');
-
-console.log('node.js bult-in JSON:')
-var r = JSON.parse(json);
-console.log('JSON.parse(input).value : ', r.value.toString());
-console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
-
-console.log('\n\nbig number JSON:');
-var r1 = JSONbig.parse(json);
-console.log('JSON.parse(input).value : ', r1.value.toString());
-console.log('JSON.stringify(JSON.parse(input)):', JSONbig.stringify(r1));
-```
-
-Output:
+The module generally works in the same way as the original one. So use the following command to install it into your application:
 
 ```
-Input: { "value" : 9223372036854775807, "v2": 123 }
-
-node.js bult-in JSON:
-JSON.parse(input).value :  9223372036854776000
-JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
-
-
-big number JSON:
-JSON.parse(input).value :  9223372036854775807
-JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
-```
-### Options
-The behaviour of the parser is somewhat configurable through 'options'
-
-#### options.strict, boolean, default false
-Specifies the parsing should be "strict" towards reporting duplicate-keys in the parsed string.
-The default follows what is allowed in standard json and resembles the behavior of JSON.parse, but overwrites any previous values with the last one assigned to the duplicate-key.
-
-Setting options.strict = true will fail-fast on such duplicate-key occurances and thus warn you upfront of possible lost information.
-
-example:
-```js
-var JSONbig = require('json-bigint');
-var JSONstrict = require('json-bigint')({"strict": true});
-
-var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';
-console.log('\n\nDuplicate Key test with both lenient and strict JSON parsing');
-console.log('Input:', dupkeys);
-var works = JSONbig.parse(dupkeys);
-console.log('JSON.parse(dupkeys).dupkey: %s', works.dupkey);
-var fails = "will stay like this";
-try {
-    fails = JSONstrict.parse(dupkeys);
-    console.log('ERROR!! Should never get here');
-} catch (e) {
-    console.log('Succesfully catched expected exception on duplicate keys: %j', e);
-}
+$ npm install true-json-bigint
 ```
 
-Output
+Parse JSON strings as described in the next example:
+
 ```
-Duplicate Key test with big number JSON
-Input: { "dupkey": "value 1", "dupkey": "value 2"}
-JSON.parse(dupkeys).dupkey: value 2
-Succesfully catched expected exception on duplicate keys: {"name":"SyntaxError","message":"Duplicate key \"dupkey\"","at":33,"text":"{ \"dupkey\": \"value 1\", \"dupkey\": \"value 2\"}"}
+var JSONbig = require('true-json-bigint');
+
+var json = '{ "value" : 987654321123456789987654321 }';
+
+JSONbig.parse(json)
 
 ```
 
-#### options.storeAsString, boolean, default false
-Specifies if BigInts should be stored in the object as a string, rather than the default BigNumber.
+As can be seen in the following example, stringifying a JSON object that contains a big number can easily be done by using the stringify function of this module.
 
-Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all BigInts to be-and-stay strings).
+```
+var JSONbig = require('true-json-bigint');
 
-example:
-```js
-var JSONbig = require('json-bigint');
-var JSONbigString = require('json-bigint')({"storeAsString": true});
-var key = '{ "key": 1234567890123456789 }';
-console.log('\n\nStoring the BigInt as a string, instead of a BigNumber');
-console.log('Input:', key);
-var withInt = JSONbig.parse(key);
-var withString = JSONbigString.parse(key);
-console.log('Default type: %s, With option type: %s', typeof withInt.key, typeof withString.key);
+var json.value : 987654321123456789987654321;
+
+JSONbig.stringify(json)
 
 ```
 
-Output
-```
-Storing the BigInt as a string, instead of a BigNumber
-Input: { "key": 1234567890123456789 }
-Default type: object, With option type: string
-
-```
-
-
-### Links:
-- [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
-- [Re: \[Json\] Limitations on number size?](http://www.ietf.org/mail-archive/web/json/current/msg00297.html)
-- [Is there any proper way to parse JSON with large numbers? (long, bigint, int64)](http://stackoverflow.com/questions/18755125/node-js-is-there-any-proper-way-to-parse-json-with-large-numbers-long-bigint)
-- [What is JavaScript's Max Int? What's the highest Integer value a Number can go to without losing precision?](http://stackoverflow.com/questions/307179/what-is-javascripts-max-int-whats-the-highest-integer-value-a-number-can-go-t)
-- [Large numbers erroneously rounded in Javascript](http://stackoverflow.com/questions/1379934/large-numbers-erroneously-rounded-in-javascript)
-
+See the README of [json-bigint 0.3.0](https://www.npmjs.com/package/json-bigint/v/0.3.0) for further details on how to use this module.
