@@ -18,23 +18,23 @@ $ npm install true-json-bigint
 Parse JSON strings as described in the next example:
 
 ```
-var JSONbig = require('true-json-bigint');
+const JSONbig = require('true-json-bigint');
 
-var json = '{"smallNumber": 1, "bigNumber" : 987654321123456789987654321}';
+const json = '{"smallNumber": 1, "bigNumber" : 987654321123456789987654321}';
 
-JSONbig.parse(json);
+const result = JSONbig.parse(json);
 
-console.log(json); // {"smallNumber": 1, "bigNumber" : 987654321123456789987654321}
-
+console.log(result); // { smallNumber: 1,
+                     //   bigNumber: BigNumber { s: 1, e: 26, c: [ 9876543211234, 56789987654321 ] } }
 ```
 
 As can be seen in the following example, stringifying a JSON object that contains a big number can easily be done by using the stringify function of this module.
 
 ```
-var JSONbig = require('true-json-bigint');
+const JSONbig = require('true-json-bigint');
 const BigNumber = require('bignumber.js');
 
-var json = {}
+const json = {}
 json.smallNumber = 1
 json.bigNumber = BigNumber('987654321123456789987654321');
 
