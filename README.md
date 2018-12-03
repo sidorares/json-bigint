@@ -1,7 +1,7 @@
 true-json-bigint
 ===========
 
-[![Build Status](https://travis-ci.org/SebastianG77/json-bigint.svg?branch=master)](https://travis-ci.org/SebastianG77/json-bigint)
+[![Build Status](https://travis-ci.org/SebastianG77/true-json-bigint.svg?branch=master)](https://travis-ci.org/SebastianG77/true-json-bigint)
 [![NPM](https://nodei.co/npm/true-json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/true-json-bigint/)
 
 This is a module for parsing JSON strings to JSON objects and stringifying JSON objects to JSON strings. It is a fork of [json-bigint 0.3.0](https://www.npmjs.com/package/json-bigint/v/0.3.0), but enhances the original module in the following aspects. 
