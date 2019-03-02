@@ -108,6 +108,26 @@ Default type: object, With option type: string
 ```
 
 
+#### options.forceBig, boolean, default false
+Specifies if all numbers should be stored as BigNumber.
+
+Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all Numbers to be-and-stay BigNumbers).
+
+
+#### options.BigNumber, function, default BigInteger
+Specifies a function which is used to convert strings to big numbers.
+
+Note that this is a dangerous behavior as it is applied only to **parsing**,
+not to **stringifying**.
+If you want to stringify your objects back, you must provide them with `.toJSON()` method.
+
+
+#### options.noNew, boolean, default false
+Toggles whether a function, which is used to convert strings to big numbers,
+should be called with `new`.
+It is needed for native `BigInt`s support since `BigInt()` function cannot be called with `new`.
+
+
 ### Links:
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
 - [Re: \[Json\] Limitations on number size?](http://www.ietf.org/mail-archive/web/json/current/msg00297.html)
@@ -115,3 +135,19 @@ Default type: object, With option type: string
 - [What is JavaScript's Max Int? What's the highest Integer value a Number can go to without losing precision?](http://stackoverflow.com/questions/307179/what-is-javascripts-max-int-whats-the-highest-integer-value-a-number-can-go-t)
 - [Large numbers erroneously rounded in Javascript](http://stackoverflow.com/questions/1379934/large-numbers-erroneously-rounded-in-javascript)
 
+### Native BigInt support
+
+#### Stringifying
+Full support out-of-the-box, stringifies BigInts as pure numbers (no quotes, no `n`).
+
+#### Parsing
+```js
+var JSONbigString = require('json-bigint')({"BigNumber": BigInt, "noNew": true});
+```
+If you want to force all numbers to be parsed as `BigInt`s
+(you probably do! Otherwise any calulations become a real headache):
+```js
+var JSONbigString = require('json-bigint')({"BigNumber": BigInt, "noNew": true, "forceBig": true});
+```
+You should take care of `BigInt` to be defined.
+No built-in checks for this are implemented.
