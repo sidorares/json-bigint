@@ -1,7 +1,4 @@
-var mocha  = require('mocha')
-  , assert = require('chai').assert
-  , expect = require('chai').expect
-  ;
+var expect = require('chai').expect;
 
 describe("Testing 'strict' option", function(){
     var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';
