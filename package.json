@@ -4,7 +4,7 @@
   "description": "Enhanced fork of json-bigint that allows parsing all big number values in JSON strings.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R spec --check-leaks test/*-test.js"
+    "test": "mocha -R spec --check-leaks test/*-test.js"
   },
   "repository": {
     "type": "git",
