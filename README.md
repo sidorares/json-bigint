@@ -42,7 +42,8 @@ json.bigNumber = BigNumber('987654321123456789987654321');
 
 const result = JSONbig.stringify(json);
 
-console.log(result); // {"smallNumber":1,"bigNumber":9.87654321123456789987654321e+26}
+console.log(result);
+// {"smallNumber":1,"bigNumber":9.87654321123456789987654321e+26}
 
 ```
 
