@@ -1,6 +1,6 @@
 {
   "name": "true-json-bigint",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Enhanced fork of json-bigint that allows parsing all big number values in JSON strings.",
   "main": "index.js",
   "scripts": {
