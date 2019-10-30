@@ -26,8 +26,8 @@ console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
 
 console.log('\n\nbig number JSON:');
 var r1 = JSONbig.parse(json);
-console.log('JSON.parse(input).value : ', r1.value.toString());
-console.log('JSON.stringify(JSON.parse(input)):', JSONbig.stringify(r1));
+console.log('JSONbig.parse(input).value : ', r1.value.toString());
+console.log('JSONbig.stringify(JSONbig.parse(input)):', JSONbig.stringify(r1));
 ```
 
 Output:
@@ -41,8 +41,8 @@ JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
 
 
 big number JSON:
-JSON.parse(input).value :  9223372036854775807
-JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
+JSONbig.parse(input).value :  9223372036854775807
+JSONbig.stringify(JSONbig.parse(input)): {"value":9223372036854775807,"v2":123}
 ```
 ### Options
 The behaviour of the parser is somewhat configurable through 'options'
