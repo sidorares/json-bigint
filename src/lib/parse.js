@@ -1,4 +1,3 @@
-var BigNumber = null;
 /*
     json_parse.js
     2012-06-20
@@ -61,26 +60,26 @@ var BigNumber = null;
     hasOwnProperty, message, n, name, prototype, push, r, t, text
 */
 
-var json_parse = function (options) {
+export function json_parse(options) {
     "use strict";
 
-// This is a function that can parse a JSON text, producing a JavaScript
-// data structure. It is a simple, recursive descent parser. It does not use
-// eval or regular expressions, so it can be used as a model for implementing
-// a JSON parser in other languages.
+    // This is a function that can parse a JSON text, producing a JavaScript
+    // data structure. It is a simple, recursive descent parser. It does not use
+    // eval or regular expressions, so it can be used as a model for implementing
+    // a JSON parser in other languages.
 
-// We are defining the function inside of another function to avoid creating
-// global variables.
+    // We are defining the function inside of another function to avoid creating
+    // global variables.
 
 
-// Default options one can override by passing options to the parse()
+    // Default options one can override by passing options to the parse()
     var _options = {
         "strict": false,  // not being strict means do not generate syntax errors for "duplicate key"
         "storeAsString": false // toggles whether the values should be stored as BigNumber (default) or a string
     };
 
 
-// If there are options, then use them to override the default _options
+    // If there are options, then use them to override the default _options
     if (options !== undefined && options !== null) {
         if (options.strict === true) {
             _options.strict = true;
@@ -94,39 +93,39 @@ var json_parse = function (options) {
     var at,     // The index of the current character
         ch,     // The current character
         escapee = {
-            '"':  '"',
+            '"': '"',
             '\\': '\\',
-            '/':  '/',
-            b:    '\b',
-            f:    '\f',
-            n:    '\n',
-            r:    '\r',
-            t:    '\t'
+            '/': '/',
+            b: '\b',
+            f: '\f',
+            n: '\n',
+            r: '\r',
+            t: '\t'
         },
         text,
 
         error = function (m) {
 
-// Call error when something is wrong.
+            // Call error when something is wrong.
 
             throw {
-                name:    'SyntaxError',
+                name: 'SyntaxError',
                 message: m,
-                at:      at,
-                text:    text
+                at: at,
+                text: text
             };
         },
 
         next = function (c) {
 
-// If a c parameter is provided, verify that it matches the current character.
+            // If a c parameter is provided, verify that it matches the current character.
 
             if (c && c !== ch) {
                 error("Expected '" + c + "' instead of '" + ch + "'");
             }
 
-// Get the next character. When there are no more characters,
-// return the empty string.
+            // Get the next character. When there are no more characters,
+            // return the empty string.
 
             ch = text.charAt(at);
             at += 1;
@@ -134,10 +133,9 @@ var json_parse = function (options) {
         },
 
         number = function () {
-// Parse a number value.
+            // Parse a number value.
 
-            var number,
-                string = '';
+            var string = '';
 
             if (ch === '-') {
                 string = '-';
@@ -165,30 +163,28 @@ var json_parse = function (options) {
                     next();
                 }
             }
-            number = +string;
-            if (!isFinite(number)) {
+            if (!isFinite(Number(string))) {
                 error("Bad number");
             } else {
-                if (BigNumber == null)
-                  BigNumber = require('bignumber.js');
                 //if (number > 9007199254740992 || number < -9007199254740992)
-                // Bignumber has stricter check: everything with length > 15 digits disallowed
-                if (string.length > 15)
-                   return (_options.storeAsString === true) ? string : new BigNumber(string);
-                return number;
+                // BigInt has stricter check: everything with length > 15 digits disallowed
+                const bigInt = BigInt(string);
+                if (bigInt > Number.MAX_SAFE_INTEGER || bigInt < Number.MIN_SAFE_INTEGER)
+                    return (_options.storeAsString === true) ? string : BigInt(string);
+                return Number(string);
             }
         },
 
         string = function () {
 
-// Parse a string value.
+            // Parse a string value.
 
             var hex,
                 i,
                 string = '',
                 uffff;
 
-// When parsing for string values, we must look for " and \ characters.
+            // When parsing for string values, we must look for " and \ characters.
 
             if (ch === '"') {
                 while (next()) {
@@ -223,7 +219,7 @@ var json_parse = function (options) {
 
         white = function () {
 
-// Skip whitespace.
+            // Skip whitespace.
 
             while (ch && ch <= ' ') {
                 next();
@@ -232,28 +228,28 @@ var json_parse = function (options) {
 
         word = function () {
 
-// true, false, or null.
+            // true, false, or null.
 
             switch (ch) {
-            case 't':
-                next('t');
-                next('r');
-                next('u');
-                next('e');
-                return true;
-            case 'f':
-                next('f');
-                next('a');
-                next('l');
-                next('s');
-                next('e');
-                return false;
-            case 'n':
-                next('n');
-                next('u');
-                next('l');
-                next('l');
-                return null;
+                case 't':
+                    next('t');
+                    next('r');
+                    next('u');
+                    next('e');
+                    return true;
+                case 'f':
+                    next('f');
+                    next('a');
+                    next('l');
+                    next('s');
+                    next('e');
+                    return false;
+                case 'n':
+                    next('n');
+                    next('u');
+                    next('l');
+                    next('l');
+                    return null;
             }
             error("Unexpected '" + ch + "'");
         },
@@ -262,7 +258,7 @@ var json_parse = function (options) {
 
         array = function () {
 
-// Parse an array value.
+            // Parse an array value.
 
             var array = [];
 
@@ -289,7 +285,7 @@ var json_parse = function (options) {
 
         object = function () {
 
-// Parse an object value.
+            // Parse an object value.
 
             var key,
                 object = {};
@@ -323,26 +319,26 @@ var json_parse = function (options) {
 
     value = function () {
 
-// Parse a JSON value. It could be an object, an array, a string, a number,
-// or a word.
+        // Parse a JSON value. It could be an object, an array, a string, a number,
+        // or a word.
 
         white();
         switch (ch) {
-        case '{':
-            return object();
-        case '[':
-            return array();
-        case '"':
-            return string();
-        case '-':
-            return number();
-        default:
-            return ch >= '0' && ch <= '9' ? number() : word();
+            case '{':
+                return object();
+            case '[':
+                return array();
+            case '"':
+                return string();
+            case '-':
+                return number();
+            default:
+                return ch >= '0' && ch <= '9' ? number() : word();
         }
     };
 
-// Return the json_parse function. It will have access to all of the above
-// functions and variables.
+    // Return the json_parse function. It will have access to all of the above
+    // functions and variables.
 
     return function (source, reviver) {
         var result;
@@ -356,17 +352,17 @@ var json_parse = function (options) {
             error("Syntax error");
         }
 
-// If there is a reviver function, we recursively walk the new structure,
-// passing each name/value pair to the reviver function for possible
-// transformation, starting with a temporary root object that holds the result
-// in an empty key. If there is not a reviver function, we simply return the
-// result.
+        // If there is a reviver function, we recursively walk the new structure,
+        // passing each name/value pair to the reviver function for possible
+        // transformation, starting with a temporary root object that holds the result
+        // in an empty key. If there is not a reviver function, we simply return the
+        // result.
 
         return typeof reviver === 'function'
             ? (function walk(holder, key) {
                 var k, v, value = holder[key];
                 if (value && typeof value === 'object') {
-                    Object.keys(value).forEach(function(k) {
+                    Object.keys(value).forEach(function (k) {
                         v = walk(value, k);
                         if (v !== undefined) {
                             value[k] = v;
@@ -376,9 +372,7 @@ var json_parse = function (options) {
                     });
                 }
                 return reviver.call(holder, key, value);
-            }({'': result}, ''))
+            }({ '': result }, ''))
             : result;
     };
 }
-
-module.exports = json_parse;

@@ -1,9 +1,10 @@
 {
-  "name": "json-bigint",
-  "version": "0.3.0",
+  "name": "json-bigint-patch",
+  "version": "0.0.1",
   "description": "JSON.parse with bigints support",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
+    "build": " rollup -i src/index.js -o dist/index.js",
     "test": "./node_modules/mocha/bin/mocha -R spec --check-leaks test/*-test.js"
   },
   "repository": {
@@ -19,10 +20,8 @@
   ],
   "author": "Andrey Sidorov <sidorares@yandex.ru>",
   "license": "MIT",
-  "dependencies": {
-    "bignumber.js": "^8.0.0"
-  },
   "devDependencies": {
+    "rollup": "2.3.2",
     "chai": "~1.9.1",
     "mocha": "~1.20.1"
   }
