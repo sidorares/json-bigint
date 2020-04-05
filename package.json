@@ -4,12 +4,12 @@
   "description": "JSON.parse with bigints support",
   "main": "dist/index.js",
   "scripts": {
-    "build": " rollup -i src/index.js -o dist/index.js",
-    "test": "./node_modules/mocha/bin/mocha -R spec --check-leaks test/*-test.js"
+    "build": "rollup -i src/index.js -o dist/index.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:sidorares/json-bigint.git"
+    "url": "git@github.com:ardatan/json-bigint-patch.git"
   },
   "keywords": [
     "JSON",
@@ -18,11 +18,10 @@
     "parse",
     "json"
   ],
-  "author": "Andrey Sidorov <sidorares@yandex.ru>",
+  "author": "Arda TANRIKULU <ardatanrikulu@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "rollup": "2.3.2",
-    "chai": "~1.9.1",
-    "mocha": "~1.20.1"
+    "jest": "25.2.7"
   }
 }

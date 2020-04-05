@@ -12,17 +12,17 @@ While most JSON parsers assume numeric values have same precision restrictions a
 example:
 
 ```js
-const nativeJSON = { ...JSON };
-require('json-bigint-patch');
 
 var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
 console.log('');
 
 console.log('JavaScript built-in JSON:')
-var r = nativeJSON.parse(json);
+var r = JSON.parse(json);
 console.log('Native JSON.parse(input).value : ', r.value.toString());
 console.log('Native JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
+
+require('json-bigint-patch');
 
 console.log('\n\nPatched JSON:');
 var r1 = JSON.parse(json);
