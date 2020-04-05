@@ -1,8 +1,7 @@
 json-bigint
 ===========
 
-[![Build Status](https://secure.travis-ci.org/sidorares/json-bigint.png)](http://travis-ci.org/sidorares/json-bigint)
-[![NPM](https://nodei.co/npm/json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint/)
+[![NPM](https://nodei.co/npm/json-bigint-patch.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint-patch/)
 
 JSON.parse/stringify with bigints support. Based on Douglas Crockford [JSON.js](https://github.com/douglascrockford/JSON-js) package and [BigInt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt) feature of JavaScript.
 
@@ -13,21 +12,22 @@ While most JSON parsers assume numeric values have same precision restrictions a
 example:
 
 ```js
-var JSONbig = require('json-bigint');
+const nativeJSON = { ...JSON };
+require('json-bigint-patch');
 
 var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
 console.log('');
 
-console.log('node.js bult-in JSON:')
-var r = JSON.parse(json);
-console.log('JSON.parse(input).value : ', r.value.toString());
-console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
+console.log('JavaScript built-in JSON:')
+var r = nativeJSON.parse(json);
+console.log('Native JSON.parse(input).value : ', r.value.toString());
+console.log('Native JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
 
-console.log('\n\nbig number JSON:');
-var r1 = JSONbig.parse(json);
-console.log('JSONbig.parse(input).value : ', r1.value.toString());
-console.log('JSONbig.stringify(JSONbig.parse(input)):', JSONbig.stringify(r1));
+console.log('\n\nPatched JSON:');
+var r1 = JSON.parse(json);
+console.log('Patched JSON.parse(input).value : ', r1.value.toString());
+console.log('Patched JSON.stringify(JSON.parse(input)):', JSON.stringify(r1));
 ```
 
 Output:
@@ -35,78 +35,15 @@ Output:
 ```
 Input: { "value" : 9223372036854775807, "v2": 123 }
 
-node.js bult-in JSON:
-JSON.parse(input).value :  9223372036854776000
-JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
+JavaScript built-in JSON:
+Native JSON.parse(input).value :  9223372036854776000
+Native JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
 
 
-big number JSON:
-JSONbig.parse(input).value :  9223372036854775807
-JSONbig.stringify(JSONbig.parse(input)): {"value":9223372036854775807,"v2":123}
+Patched JSON:
+Patched JSON.parse(input).value :  9223372036854775807
+Patched JSON.stringify(JSON.parse(input)): {"value":9223372036854775807,"v2":123}
 ```
-### Options
-The behaviour of the parser is somewhat configurable through 'options'
-
-#### options.strict, boolean, default false
-Specifies the parsing should be "strict" towards reporting duplicate-keys in the parsed string.
-The default follows what is allowed in standard json and resembles the behavior of JSON.parse, but overwrites any previous values with the last one assigned to the duplicate-key.
-
-Setting options.strict = true will fail-fast on such duplicate-key occurances and thus warn you upfront of possible lost information.
-
-example:
-```js
-var JSONbig = require('json-bigint');
-var JSONstrict = require('json-bigint')({"strict": true});
-
-var dupkeys = '{ "dupkey": "value 1", "dupkey": "value 2"}';
-console.log('\n\nDuplicate Key test with both lenient and strict JSON parsing');
-console.log('Input:', dupkeys);
-var works = JSONbig.parse(dupkeys);
-console.log('JSON.parse(dupkeys).dupkey: %s', works.dupkey);
-var fails = "will stay like this";
-try {
-    fails = JSONstrict.parse(dupkeys);
-    console.log('ERROR!! Should never get here');
-} catch (e) {
-    console.log('Succesfully catched expected exception on duplicate keys: %j', e);
-}
-```
-
-Output
-```
-Duplicate Key test with big number JSON
-Input: { "dupkey": "value 1", "dupkey": "value 2"}
-JSON.parse(dupkeys).dupkey: value 2
-Succesfully catched expected exception on duplicate keys: {"name":"SyntaxError","message":"Duplicate key \"dupkey\"","at":33,"text":"{ \"dupkey\": \"value 1\", \"dupkey\": \"value 2\"}"}
-
-```
-
-#### options.storeAsString, boolean, default false
-Specifies if BigInts should be stored in the object as a string, rather than the default BigNumber.
-
-Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all BigInts to be-and-stay strings).
-
-example:
-```js
-var JSONbig = require('json-bigint');
-var JSONbigString = require('json-bigint')({"storeAsString": true});
-var key = '{ "key": 1234567890123456789 }';
-console.log('\n\nStoring the BigInt as a string, instead of a BigNumber');
-console.log('Input:', key);
-var withInt = JSONbig.parse(key);
-var withString = JSONbigString.parse(key);
-console.log('Default type: %s, With option type: %s', typeof withInt.key, typeof withString.key);
-
-```
-
-Output
-```
-Storing the BigInt as a string, instead of a BigNumber
-Input: { "key": 1234567890123456789 }
-Default type: object, With option type: string
-
-```
-
 
 ### Links:
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
