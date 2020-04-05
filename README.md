@@ -1,4 +1,4 @@
-json-bigint
+json-bigint-patch
 ===========
 
 [![NPM](https://nodei.co/npm/json-bigint-patch.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint-patch/)
