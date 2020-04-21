@@ -166,11 +166,12 @@ export function json_parse(options) {
             if (!isFinite(Number(string))) {
                 error("Bad number");
             } else {
+                const nonBigIntNum = Number(string);
                 //if (number > 9007199254740992 || number < -9007199254740992)
                 // BigInt has stricter check: everything with length > 15 digits disallowed
-                if (!Number.isSafeInteger(Number(string)))
+                if (Number.isInteger(nonBigIntNum) && !Number.isSafeInteger(nonBigIntNum))
                     return (_options.storeAsString === true) ? string : BigInt(string);
-                return Number(string);
+                return nonBigIntNum;
             }
         },
 
