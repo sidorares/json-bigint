@@ -168,8 +168,7 @@ export function json_parse(options) {
             } else {
                 //if (number > 9007199254740992 || number < -9007199254740992)
                 // BigInt has stricter check: everything with length > 15 digits disallowed
-                const bigInt = BigInt(string);
-                if (bigInt > Number.MAX_SAFE_INTEGER || bigInt < Number.MIN_SAFE_INTEGER)
+                if (!Number.isSafeInteger(Number(string)))
                     return (_options.storeAsString === true) ? string : BigInt(string);
                 return Number(string);
             }
