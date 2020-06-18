@@ -28,4 +28,21 @@ describe("Testing bigint support", function(){
         expect(output).to.equal(input);
         done();
     });
+
+    [
+      ['1.23456789012345678901', '1.23456789012345678901'],
+      ['12345678901234.5678901', '12345678901234.5678901'],
+      ['00000000000000.0000000', '0']
+    ].forEach(function (data) {
+        var input = data[0];
+        var expected = data[1];
+        it('should convert any number longer than 15 chars to bignumber, even floats like' + input, function(done){
+          var JSONbig = require('../index');
+          var result = JSONbig.parse(input);
+          expect(result).to.be.instanceof(BigNumber);
+          expect(result.toString()).to.equal(expected);
+          done();
+        });
+    })
+
 });
