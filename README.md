@@ -107,6 +107,13 @@ Default type: object, With option type: string
 
 ```
 
+#### options.alwaysBigNumber, boolean, default false
+Specifies if all numbers should be stored as BigNumber/BigInt.
+
+Note that this is a dangerous behavior as it breaks the default functionality of being able to convert back-and-forth without data type changes (as this will convert all Number to be-and-stay BigNumber/BigInt)
+
+#### options.useBigInt, boolean, default false
+Specifies if parser uses native BigInt instead of bignumber.js
 
 ### Links:
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
@@ -115,3 +122,21 @@ Default type: object, With option type: string
 - [What is JavaScript's Max Int? What's the highest Integer value a Number can go to without losing precision?](http://stackoverflow.com/questions/307179/what-is-javascripts-max-int-whats-the-highest-integer-value-a-number-can-go-t)
 - [Large numbers erroneously rounded in Javascript](http://stackoverflow.com/questions/1379934/large-numbers-erroneously-rounded-in-javascript)
 
+### Native BigInt support
+
+#### Stringifying
+Full support out-of-the-box, stringifies BigInts as pure numbers (no quotes, no `n`).
+
+#### Parsing
+```js
+var JSONbigString = require('json-bigint')({"useBigInt": true});
+```
+If you want to force all numbers to be parsed as `bignumber.js`
+```js
+var JSONbigString = require('json-bigint')({"alwaysBigNumber": true});
+```
+If you want to force all numbers to be parsed as `BigInt`s
+(you probably do! Otherwise any calulations become a real headache):
+```js
+var JSONbigString = require('json-bigint')({"alwaysBigNumber": true, "useBigInt": true});
+```
