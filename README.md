@@ -4,7 +4,7 @@ json-bigint
 [![Build Status](https://secure.travis-ci.org/sidorares/json-bigint.png)](http://travis-ci.org/sidorares/json-bigint)
 [![NPM](https://nodei.co/npm/json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint/)
 
-JSON.parse/stringify with bigints support. Based on Douglas Crockford [JSON.js](https://github.com/douglascrockford/JSON-js) package and [bignumber.js](https://github.com/MikeMcl/bignumber.js) library.
+JSON.parse/stringify with bigints support. Based on Douglas Crockford [JSON.js](https://github.com/douglascrockford/JSON-js) package and [bignumber.js](https://github.com/MikeMcl/bignumber.js) library. Native Bigint was added to JS recently, so we added an option to leverage it. However, the parsing with native BigInt is kept an option for backward compability.
 
 While most JSON parsers assume numeric values have same precision restrictions as IEEE 754 double, JSON specification _does not_ say anything about number precision. Any floating point number in decimal (optionally scientific) notation is valid JSON value. It's a good idea to serialize values which might fall out of IEEE 754 integer precision as strings in your JSON api, but `{ "value" : 9223372036854775807}`, for example, is still a valid RFC4627 JSON string, and in most JS runtimes the result of `JSON.parse` is this object: `{ value: 9223372036854776000 }`
 
@@ -129,14 +129,18 @@ Full support out-of-the-box, stringifies BigInts as pure numbers (no quotes, no 
 
 #### Parsing
 ```js
-var JSONbigString = require('json-bigint')({"useBigInt": true});
+var JSONbig = require('json-bigint')({"useNativeBigInt": true});
 ```
 If you want to force all numbers to be parsed as `bignumber.js`
 ```js
-var JSONbigString = require('json-bigint')({"alwaysBigNumber": true});
+var JSONbig = require('json-bigint')({"alwaysParseAsBig": true});
 ```
 If you want to force all numbers to be parsed as `BigInt`s
 (you probably do! Otherwise any calulations become a real headache):
 ```js
-var JSONbigString = require('json-bigint')({"alwaysBigNumber": true, "useBigInt": true});
+var JSONbig = require('json-bigint')({"alwaysParseAsBig": true, "useNativeBigInt": true});
 ```
+
+#### Limitations
+Currently `s === JSONbig.stringify(JSONbig.parse(s))` but `o !== JSONbig.parse(JSONbig.stringify(o))` when `o` has value of something like `123n`, `JSONbig` stringify this as `123`, which becomes `number` when being reparsed. 
+There is currently no consistent way to deal with this issue, so we decided to leave it this way, handling this specific case is then up to users.
