@@ -13,7 +13,7 @@ describe("Testing native BigInt support: parse", function () {
 
   it("Should show JSONbig does support parsing native BigInt", function (done) {
     var JSONbig = require('../index')({
-      "useBigInt": true
+      "useNativeBigInt": true
     });
     var obj = JSONbig.parse(input);
     expect(obj.small, "small int").to.equal(123);
@@ -24,8 +24,8 @@ describe("Testing native BigInt support: parse", function () {
 
   it("Should show JSONbig does support forced parsing to native BigInt", function (done) {
     var JSONbig = require('../index')({
-      "alwaysBigNumber": true,
-      "useBigInt": true
+      "alwaysParseAsBig": true,
+      "useNativeBigInt": true
     });
     var obj = JSONbig.parse(input);
     expect(obj.big.toString(), "big int").to.equal("92233720368547758070");
@@ -38,7 +38,7 @@ describe("Testing native BigInt support: parse", function () {
 
   it("Should show JSONbig does support native Bigint parse/stringify roundtrip", function (done) {
     var JSONbig = require('../index')({
-      "useBigInt": true
+      "useNativeBigInt": true
     });
     var obj = JSONbig.parse(input);
     var output = JSONbig.stringify(obj);
@@ -48,8 +48,8 @@ describe("Testing native BigInt support: parse", function () {
 
   it("Should show JSONbig does support native Bigint parse/stringify roundtrip when BigInt is forced", function (done) {
     var JSONbig = require('../index')({
-      "alwaysBigNumber": true,
-      "useBigInt": true
+      "alwaysParseAsBig": true,
+      "useNativeBigInt": true
     });
     var obj = JSONbig.parse(input);
     var output = JSONbig.stringify(obj);
