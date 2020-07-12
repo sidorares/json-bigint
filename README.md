@@ -1,6 +1,8 @@
 json-bigint
 ===========
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sidorares/json-bigint.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://secure.travis-ci.org/sidorares/json-bigint.png)](http://travis-ci.org/sidorares/json-bigint)
 [![NPM](https://nodei.co/npm/json-bigint.png?downloads=true&stars=true)](https://nodei.co/npm/json-bigint/)
 
