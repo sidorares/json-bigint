@@ -20,7 +20,7 @@ var json = '{ "value" : 9223372036854775807, "v2": 123 }';
 console.log('Input:', json);
 console.log('');
 
-console.log('node.js bult-in JSON:');
+console.log('node.js built-in JSON:');
 var r = JSON.parse(json);
 console.log('JSON.parse(input).value : ', r.value.toString());
 console.log('JSON.stringify(JSON.parse(input)):', JSON.stringify(r));
@@ -36,7 +36,7 @@ Output:
 ```
 Input: { "value" : 9223372036854775807, "v2": 123 }
 
-node.js bult-in JSON:
+node.js built-in JSON:
 JSON.parse(input).value :  9223372036854776000
 JSON.stringify(JSON.parse(input)): {"value":9223372036854776000,"v2":123}
 
