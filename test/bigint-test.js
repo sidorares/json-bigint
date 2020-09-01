@@ -14,7 +14,7 @@ describe("Testing bigint support", function(){
         done();
     });
 
-    it("Should show JSNbig does support bigint parse/stringify roundtrip", function(done){
+    it("Should show JSONbig does support bigint parse/stringify roundtrip", function(done){
         var JSONbig = require('../index');
         var obj = JSONbig.parse(input);
         expect(obj.small.toString(), "string from small int").to.equal("123");

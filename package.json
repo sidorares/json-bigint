@@ -1,14 +1,19 @@
 {
-  "name": "true-json-bigint",
-  "version": "0.4.8",
-  "description": "Enhanced fork of json-bigint that allows parsing all big number values in JSON strings.",
+  "name": "json-bigint",
+  "version": "1.0.0",
+  "description": "JSON.parse with bigints support",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "lib/parse.js",
+    "lib/stringify.js"
+  ],
   "scripts": {
     "test": "mocha -R spec --check-leaks test/*-test.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/SebastianG77/true-json-bigint.git"
+    "url": "git@github.com:sidorares/json-bigint.git"
   },
   "keywords": [
     "JSON",
@@ -17,12 +22,13 @@
     "parse",
     "json"
   ],
+  "author": "Andrey Sidorov <sidorares@yandex.ru>",
   "license": "MIT",
   "dependencies": {
     "bignumber.js": "^9.0.0"
   },
   "devDependencies": {
-    "chai": "~4.2.0",
-    "mocha": "~8.1.1"
+    "chai": "4.2.0",
+    "mocha": "8.1.1"
   }
 }
