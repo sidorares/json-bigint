@@ -152,6 +152,23 @@ Default type: object, With option type: bigint
 
 ```
 
+**Exception**: if the number being parsed is a big decimal number, still returns it as BigNumber.
+
+```js
+var JSONbig = require('json-bigint');
+var JSONbigNative = require('json-bigint')({ useNativeBigInt: true });
+var key = '{ "key": 993143214321423154315154321.1 }';
+console.log(`\n\nStoring the Number as a BigNumber!!`);
+console.log('Input:', key);
+var normal = JSONbig.parse(key);
+var nativeBigInt = JSONbigNative.parse(key);
+console.log(
+  'Default type: %s, With option type: %s',
+  typeof normal.key,
+  typeof nativeBigInt.key
+);
+````
+
 #### options.alwaysParseAsBig, boolean, default false
 
 Specifies if all numbers should be stored as BigNumber.
