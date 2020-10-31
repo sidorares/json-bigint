@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
+    "fast-check": "^2.6.0",
     "mocha": "8.0.1"
   }
 }
