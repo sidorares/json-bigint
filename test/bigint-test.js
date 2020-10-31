@@ -2,6 +2,7 @@ var mocha  = require('mocha')
   , assert = require('chai').assert
   , expect = require('chai').expect
   , BigNumber = require('bignumber.js')
+  , fc = require('fast-check')
   ;
 
 describe("Testing bigint support", function(){
@@ -26,6 +27,14 @@ describe("Testing bigint support", function(){
 
         var output = JSONbig.stringify(obj);
         expect(output).to.equal(input);
+        done();
+    });
+
+    it("Should show JSONbig does support bigint parse/stringify roundtrip with any valid JSON value", function (done) {
+        var JSONbig = require('../index');
+        fc.assert(fc.property(fc.jsonObject(), (v) => {
+            JSONbig.parse(JSONbig.stringify(v))
+        }));
         done();
     });
 });
