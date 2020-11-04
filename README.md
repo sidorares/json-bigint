@@ -211,6 +211,29 @@ const user = JSONbig.parse('{ "__proto__": { "admin": true }, "id": 12345 }');
 // => result is { id: 12345 }
 ```
 
+### How to use directly in your web page:
+
+```html
+<script src="json-bigint.js"></script>
+<script>
+
+  var JSONbigString = JSONbig({ storeAsString: true });
+
+  var key = '{ "key": 1234567890123456789 }';
+  console.log('\n\nStoring the BigInt as a string, instead of a BigNumber');
+  console.log('Input:', key);
+  var withInt = JSONbig.parse(key);
+  var withString = JSONbigString.parse(key);
+  console.log(
+    'Default type: %s, With option type: %s',
+    typeof withInt.key,
+    typeof withString.key
+  );
+
+</script>
+```
+
+
 ### Links:
 
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
