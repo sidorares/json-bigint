@@ -1,7 +1,4 @@
-var mocha  = require('mocha')
-  , assert = require('chai').assert
-  , expect = require('chai').expect
-  ;
+var expect = require('chai').expect;
 
 describe("Testing 'storeAsString' option", function(){
     var key = '{ "key": 12345678901234567 }';

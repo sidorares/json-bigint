@@ -9,7 +9,7 @@
     "lib/stringify.js"
   ],
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -R spec --check-leaks test/*-test.js"
+    "test": "mocha -R spec --check-leaks test/*-test.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,6 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
-    "mocha": "8.0.1"
+    "mocha": "8.1.1"
   }
 }
