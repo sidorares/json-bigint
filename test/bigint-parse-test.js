@@ -1,7 +1,7 @@
 var mocha = require('mocha')
   , assert = require('chai').assert
   , expect = require('chai').expect
-  , BigNumber = require('bignumber.js')
+  , BigNumber = require('bignumber.js').BigNumber
   ;
 
 describe("Testing native BigInt support: parse", function () {
