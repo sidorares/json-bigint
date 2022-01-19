@@ -1,7 +1,7 @@
 {
-  "name": "json-bigint",
+  "name": "@qii404/json-bigint",
   "version": "1.0.0",
-  "description": "JSON.parse with bigints support",
+  "description": "JSON.parse with bigints support, forked from sidorares/json-bigint by qii404",
   "main": "index.js",
   "files": [
     "index.js",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:sidorares/json-bigint.git"
+    "url": "git@github.com:qishibo/json-bigint.git"
   },
   "keywords": [
     "JSON",
