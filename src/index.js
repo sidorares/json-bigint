@@ -13,5 +13,9 @@ if (typeof globalThis !== 'undefined') {
     globalObj = global;
 }
 
+globalObj.BigInt.prototype.toJSON = function () {
+    return this;
+}
+
 globalObj.JSON.parse = json_parse();
 globalObj.JSON.stringify = stringify;
