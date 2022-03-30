@@ -1,6 +1,6 @@
 {
   "name": "json-bigint-patch",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "JSON.parse with bigints support",
   "main": "dist/index.js",
   "scripts": {
