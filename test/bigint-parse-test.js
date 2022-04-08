@@ -10,6 +10,7 @@ describe("Testing native BigInt support: parse", function () {
     return;
   }
   var input = '{"big":92233720368547758070,"small":123,"deci":1234567890.0123456,"shortExp":1.79e+308,"longExp":1.7976931348623157e+308}';
+  var infInput = '{"upperInf":1.797693134862316e+308,"lowerInf":-1.797693134862316e+308}';
 
   it("Should show JSONbig does support parsing native BigInt", function (done) {
     var JSONbig = require('../index')({
@@ -69,6 +70,26 @@ describe("Testing native BigInt support: parse", function () {
     var obj = JSONbig.parse(input);
     var output = JSONbig.stringify(obj);
     expect(output).to.equal(input);
+    done();
+  });
+
+  it(`Should show JSONbig parses a number bigger than the upper infinity limit (> 1.797693134862315E+308) as Infinity`, function (done) {
+    var JSONbig = require('../index')({
+      "alwaysParseAsBig": true,
+      "useNativeBigInt": true
+    });
+    var obj = JSONbig.parse(infInput);
+    expect(obj.upperInf, "upper infinity").to.equal(Infinity);
+    done();
+  });
+
+  it(`Should show JSONbig parses a number smaller than the lower infinity limit (< -1.797693134862315E+308) as -Infinity`, function (done) {
+    var JSONbig = require('../index')({
+      "alwaysParseAsBig": true,
+      "useNativeBigInt": true
+    });
+    var obj = JSONbig.parse(infInput);
+    expect(obj.lowerInf, "lower infinity").to.equal(-Infinity);
     done();
   });
 });
