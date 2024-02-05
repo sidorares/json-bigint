@@ -1,6 +1,6 @@
 {
   "name": "json-bigint",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "JSON.parse with bigints support",
   "main": "index.js",
   "files": [
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:sidorares/json-bigint.git"
+    "url": "git@github.com:taoheihei/json-bigint.git"
   },
   "keywords": [
     "JSON",
@@ -22,7 +22,7 @@
     "parse",
     "json"
   ],
-  "author": "Andrey Sidorov <sidorares@yandex.ru>",
+  "author": "taoheihei@outlook.com",
   "license": "MIT",
   "dependencies": {
     "bignumber.js": "^9.0.0"
