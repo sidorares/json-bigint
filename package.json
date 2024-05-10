@@ -22,7 +22,7 @@
     "parse",
     "json"
   ],
-  "author": "Andrey Sidorov <sidorares@yandex.ru>",
+  "author": "Andrey Sidorov <andrey.sidorov@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "bignumber.js": "^9.0.0"
