@@ -71,4 +71,14 @@ describe("Testing native BigInt support: parse", function () {
     expect(output).to.equal(input);
     done();
   });
+
+  it("Uses custom parser if provided", function(done) {
+    var JSONbig = require('../index')({
+      numberParser: str => str + " 14eeda86-0b52-4c63-845f-4b0a60fb667b"
+    });
+    var obj = JSONbig.parse(input);
+    var output = JSONbig.stringify(obj);
+    expect(output).to.equal('{"big":"92233720368547758070 14eeda86-0b52-4c63-845f-4b0a60fb667b","small":"123 14eeda86-0b52-4c63-845f-4b0a60fb667b"}');
+    done();
+  });
 });
