@@ -199,7 +199,7 @@ var JSONbig = require('json-bigint')({
 #### options.constructorAction, boolean, default: "error". Possible values: "error", "ignore", "preserve"
 
 Controls how `__proto__` and `constructor` properties are treated. If set to "error" they are not allowed and
-parse() call will throw an error. If set to "ignore" the prroperty and it;s value is skipped from parsing and object building.
+parse() call will throw an error. If set to "ignore" the property and its value are skipped from parsing and object building.
 If set to "preserve" the `__proto__` property is set. One should be extra careful and make sure any other library consuming generated data
 is not vulnerable to prototype poisoning attacks.
 
