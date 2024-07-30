@@ -211,6 +211,29 @@ const user = JSONbig.parse('{ "__proto__": { "admin": true }, "id": 12345 }');
 // => result is { id: 12345 }
 ```
 
+#### options.numberParser, function, default: built-in parser
+
+Pass in a custom parser whenever a numeric value is encountered.
+When set, ignores `options.storeAsString`, `options.useNativeBigInt`, and `options.alwaysParseAsBig`.
+
+```js
+let JSONbig = require('../index')({
+  // append " abc" to every number value found
+  numberParser: str => str + " abc"
+});
+
+JSONbig.parse('{"big":92233720368547758070,"small":123}');
+// result is { big: "92233720368547758070 abc","small":"123 abc"}
+
+JSONbig = require('../index')({
+  // convert every number value found into a BigInt
+  numberParser: str => BigInt(str)
+});
+
+JSONbig.parse('{"big":92233720368547758070,"small":123}');
+// result is { big: 92233720368547758070n,"small":123n}
+```
+
 ### Links:
 
 - [RFC4627: The application/json Media Type for JavaScript Object Notation (JSON)](http://www.ietf.org/rfc/rfc4627.txt)
