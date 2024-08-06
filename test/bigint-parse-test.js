@@ -71,4 +71,26 @@ describe("Testing native BigInt support: parse", function () {
     expect(output).to.equal(input);
     done();
   });
+
+  it("Should show JSONbig parses decimal numbers as numbers, not strings", function (done) {
+    var JSONbig = require('../index')({
+      "storeAsString": true
+    });
+    var input = '{"testNumber": 95.45454545454545}';
+    var obj = JSONbig.parse(input);
+    expect(obj.testNumber.toString(), "test number").to.equal("95.45454545454545");
+    expect(typeof obj.testNumber, "test number").to.equal('number');
+    done();
+  });
+
+  it("Should show JSONbig parses large decimal numbers as strings when storeAsString is true", function (done) {
+    var JSONbig = require('../index')({
+      "storeAsString": true
+    });
+    var input = '{"largeDecimal": 100000000000000000001.23}';
+    var obj = JSONbig.parse(input);
+    expect(obj.largeDecimal, "large decimal number").to.equal("100000000000000000001.23");
+    expect(typeof obj.largeDecimal, "large decimal number").to.equal('string');
+    done();
+  });
 });
