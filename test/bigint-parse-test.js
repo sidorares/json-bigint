@@ -9,7 +9,7 @@ describe("Testing native BigInt support: parse", function () {
     console.log('No native BigInt');
     return;
   }
-  var input = '{"big":92233720368547758070,"small":123,"deci":1234567890.0123456,"shortExp":1.79e+308,"longExp":1.7976931348623157e+308}';
+  var input = `{"huge":1${'0'.repeat(309)},"big":92233720368547758070,"small":123,"deci":1234567890.0123456,"shortExp":1.79e+308,"longExp":1.7976931348623157e+308}`;
 
   it("Should show JSONbig does support parsing native BigInt", function (done) {
     var JSONbig = require('../index')({
@@ -19,6 +19,8 @@ describe("Testing native BigInt support: parse", function () {
     expect(obj.small, "small int").to.equal(123);
     expect(obj.big.toString(), "big int").to.equal("92233720368547758070");
     expect(typeof obj.big, "big int").to.equal('bigint');
+    expect(obj.huge.toString(), "huge int").to.equal(`1${'0'.repeat(309)}`);
+    expect(typeof obj.huge, "huge int").to.equal('bigint');
     done();
   });
 
