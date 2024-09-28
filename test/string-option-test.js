@@ -18,4 +18,14 @@ describe("Testing 'storeAsString' option", function(){
         expect(typeof result.key).to.equal("string");
         done();
     });
+
+    it("Should show that key is of type string, JSONbig is forced parse as big and storeAsString option is true", function(done){
+        var JSONstring = require('../index')({
+          "storeAsString": true,
+          "alwaysParseAsBig": true,
+        });
+        var result = JSONstring.parse('{ "key": 1234 }');
+        expect(typeof result.key).to.equal("string");
+        done();
+    });
 });
