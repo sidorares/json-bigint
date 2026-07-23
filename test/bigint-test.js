@@ -28,4 +28,19 @@ describe("Testing bigint support", function(){
         expect(output).to.equal(input);
         done();
     });
+
+    it('Should not walk BigNumber internals when a reviver is passed', function (done) {
+        var JSONbig = require('../index');
+        var input = '{"big": 20000000000000000000}';
+        var keys = [];
+        var result = JSONbig.parse(input, function (k, v) {
+            keys.push(k);
+            return v;
+        });
+        // the reviver must receive the number as a single leaf value, not the
+        // BigNumber's internal fields (s, e, c)
+        expect(keys).to.deep.equal(['big', '']);
+        expect(result.big.toString()).to.equal('20000000000000000000');
+        done();
+    });
 });
